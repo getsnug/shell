@@ -7,7 +7,7 @@
 /*function declarations*/
 char * cd();
 void touch();
-char * curLoc = "/"; //current location of the user
+char curLoc[256] = "/"; //current location of the user
 /*read reads in an input from the user and splits it up every whitespace*/
 char ** read(){
     char inp[256];
@@ -47,7 +47,7 @@ int execute(char ** argsIn){
     }
     else if(strcmp(argsIn[0], "cd") == 0){//cd function, currently throws a seg fault when run, likely the same one that touch throws
 	//printf("%s", cd(curLoc, argsIn[1]));
-	curLoc = cd(curLoc, "20");
+	strcpy(curLoc, cd(curLoc, argsIn[1]));
 	return(0);
     }
     else if(strcmp(argsIn[0], "pwd")==0){//creates a file currently throws a seg fault, likely the same as cd's
@@ -55,7 +55,6 @@ int execute(char ** argsIn){
 	}
     else if(strcmp(argsIn[0], "touch")==0){//creates a file currently throws a seg fault, likely the same as cd's
 	if(argsIn[1]!=NULL){//checks if filename is entered
-		printf("%s", "test");
 	    touch(argsIn[1]);
 	}else{
 	    printf("%s", "you need to enter a filename");
@@ -72,10 +71,11 @@ void loop(void){
     char **line;
     int status = 1;
     do{
+	printf("%s\n", "runing loop");
         printf("user@%s>", curLoc);
         line = read();
 	status =  execute(line);//this line currently throws an error when execute returns a value greater than 0
-    }while(status);
+    }while(status!=0);
 }
 int main(int argc, char** argv){
     loop();
