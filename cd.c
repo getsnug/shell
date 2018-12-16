@@ -1,3 +1,4 @@
+/*Cd takes in a current location as a string and returns a new path in the system*/
 #include "cd.h"
 #include <stdio.h>
 #include <stdlib.h>

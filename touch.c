@@ -1,3 +1,4 @@
+/*touch currently should make a new file, but currently does not work*/
 #include <stdio.h>
 void touch(char * fName){
 	printf("%s\n", fName);//test print statement delete later
