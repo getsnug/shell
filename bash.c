@@ -10,7 +10,7 @@ within the main and is responsible for calling functions that read evaluate and 
 /*function declarations*/
 char * cd();
 void touch();
-char curLoc[256] = "/"; //current location of the user
+char curLoc[256] = "/20/"; //current location of the user
 /*read reads in an input from the user and splits it up every whitespace*/
 char ** read(){
     char inp[256];
@@ -36,7 +36,7 @@ the appropriate function*/
 int execute(char ** argsIn){
    char args[256][256];//THIS LINE SHOULD DO NOTING BUT IF REMOVED THE COE BREAKS???
     if(strcmp(argsIn[0], "ls") ==  0){//Checks if the user wants ls
-	if(argsIn[1]==NULL){//checks if ls has a path paramater, still needs actual parameters 
+	if(strcmp(argsIn[1], "\n")==0){//checks if ls has a path paramater, still needs actual parameters 
 		ls(curLoc);
 	}else{
 		if(argsIn[1][0]=='-'){//checks if there is a param
@@ -52,7 +52,6 @@ int execute(char ** argsIn){
 	}
     }
     else if(strcmp(argsIn[0], "cd") == 0){//cd function, currently throws a seg fault when run, likely the same one that touch throws
-	//printf("%s", cd(curLoc, argsIn[1]));
 	strcpy(curLoc, cd(curLoc, argsIn[1]));
 	return(1);
     }
@@ -65,23 +64,22 @@ int execute(char ** argsIn){
 	}else{
 	    printf("%s", "you need to enter a filename");
 	}
-	return(1);
+	return(0);
     }
     else{
         printf("command not found\n");
     }
-    return(1);
+    return(0);
 }
 /*main repl loop*/
 void loop(void){
     char **line;
     int status = 1;
     do{
-	printf("%s\n", "runing loop");
-        printf("user@%s>\n", curLoc);
+        printf("user@%s\n>", curLoc);
         line = read();
 	status =  execute(line);//this line currently throws an error when execute returns a value greater than 0
-    }while(status!=0);
+    }while(status==1);
 }
 int main(int argc, char** argv){
     loop();
